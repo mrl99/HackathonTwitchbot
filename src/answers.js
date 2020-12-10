@@ -22,3 +22,4 @@ export function getAnswer(client, message) {
     }
 }
 
+//TODO game name can be GET from the stream info

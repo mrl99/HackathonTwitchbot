@@ -2,13 +2,14 @@
   "name": "hackathon-twitchbot",
   "version": "1.0.0",
   "license": "UNLICENSED",
-  "type": "module",
   "main": "src/bot.js",
   "scripts": {
     "start": "node src/bot.js"
   },
   "dependencies": {
     "damerau-levenshtein-js": "^1.1.7",
-    "tmi.js": "^1.5.0"
+    "tmi.js": "^1.5.0",
+    "twitch-js": "^2.0.0-beta.33",
+    "node-fetch": "^2.6.1"
   }
 }
