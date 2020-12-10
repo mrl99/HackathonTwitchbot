@@ -5,7 +5,7 @@ export const questionsAndAnswers = {
   "Why is the game in Japanese?": "Japanese text is faster, and games are generally released earlier in Japan, so there are more exploitable bugs that are patched in other versions."
 }
 
-export const THRESHOLD = 10;
+export const THRESHOLD = 15;
 
 // Define configuration options
 const opts = {
@@ -32,23 +32,25 @@ client.on('connected', onConnectedHandler);
 client.connect();
 
 // Called every time a message comes in
-function onMessageHandler(target, context, msg, self) {
-  //if (self) { return; } // Ignore messages from the bot
+function onMessageHandler(channelName, context, msg, self) {
+  if (self) { return; } // Ignore messages from the bot
 
   // Remove whitespace from chat message
   const commandName = msg.trim();
 
+  const msgUsername = context.username;
+
   for (const question of Object.keys(questionsAndAnswers)) {
     console.log(dljs.distance(question, msg));
-    console.log(questionsAndAnswers[question])
     if (dljs.distance(question, msg) < THRESHOLD) {
-       client.say(target, questionsAndAnswers[question]);
+      client.say(target, questionsAndAnswers[question])
+      return;
     }
   }
   // If the command is known, let's execute it
   if (commandName === '!dice') {
     const num = rollDice();
-    client.say(target, `You rolled a ${num}`);
+    client.say(channelName, `You rolled a ${num}`);
     console.log(`* Executed ${commandName} command`);
   } else {
     console.log(`* Unknown command ${commandName}`);
