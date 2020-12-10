@@ -10,11 +10,11 @@ export const THRESHOLD = 10;
 // Define configuration options
 const opts = {
   identity: {
-    username: 'tracici',
-    password: 'oauth:ffuem6rh61m351zcuuqiq061ay2eot'
+    username: 'HackathonChatbotTest',
+    password: 'oauth:6t7p4rvao7gvpl9ekk16zcpa03i2ey'
   },
   channels: [
-    'tracici'
+    'HackathonChatbotTest'
   ]
 };
 
@@ -66,3 +66,26 @@ function onConnectedHandler(addr, port) {
   console.log(`* Connected to ${addr}:${port}`);
 }
 
+let defaultColors = [
+  '#FF0000','#0000FF','#008000','#B22222','#FF7F50',
+  '#9ACD32','#FF4500','#2E8B57','#DAA520','#D2691E',
+  '#5F9EA0','#1E90FF','#FF69B4','#8A2BE2','#00FF7F'
+],
+randomColorsChosen = {};
+
+function resolveColor(chan, name, color) {
+if(color !== null) {
+  return color;
+}
+if(!(chan in randomColorsChosen)) {
+  randomColorsChosen[chan] = {};
+}
+if(name in randomColorsChosen[chan]) {
+  color = randomColorsChosen[chan][name];
+}
+else {
+  color = defaultColors[Math.floor(Math.random()*defaultColors.length)];
+  randomColorsChosen[chan][name] = color;
+}
+return color;
+}
