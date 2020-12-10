@@ -6,10 +6,8 @@ let client = getClient();
 // Register our event handlers (defined below)
 client.on('message', onMessageHandler);
 client.on('join', (channel, username, self) => {
-  console.log(username + ' joined');
   if (username === self) { return; }
   const newColor = getRandomColor();
-  console.log("changing color to " + newColor)
   client.color(self, newColor);
   client.say(channel, `/me ─=≡Σ((( つ•̀ω•́)つ WELCOME TO THE CHANNEL ${username} ヾ(*>∀＜*)  `);
 });
@@ -29,7 +27,11 @@ function onMessageHandler(channel, userstate, message, self) {
     const answer = getAnswer(client, message);
     if (answer != null) {
       client.color(channel, "DodgerBlue");
-      client.say(channel, `/me Hi ${userstate.username}, ${answer}`);
+      answer.then(response => {
+        console.log("got response " + response);
+        client.say(channel, `/me Hi ${userstate.username}, ${response}`);
+        return;
+      });
     }
 
     defaultFunction(message, channel);
@@ -42,7 +44,6 @@ function defaultFunction(message, channel) {
     if (commandName === '!dice') {
         const num = rollDice();
         client.say(channel, `You rolled a ${num}`);
-        console.log(`* Executed ${commandName} command`);
     } else {
         console.log(`* Unknown command ${commandName}`);
     }
