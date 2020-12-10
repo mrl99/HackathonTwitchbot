@@ -1,13 +1,23 @@
 import {getClient} from './client.js';
 import {getAnswer} from "./answers.js";
+import {COLORS} from "./config.js";
 
 let client = getClient();
 // Register our event handlers (defined below)
 client.on('message', onMessageHandler);
 client.on('join', (channel, username, self) => {
-    client.say(channel, `/me ─=≡Σ((( つ•̀ω•́)つ WELCOME TO THE CHANNEL ${username} ヾ(*>∀＜*)  `);
+  console.log(username + ' joined');
+  if (username === self) { return; }
+  const newColor = getRandomColor();
+  console.log("changing color to " + newColor)
+  client.color(self, newColor);
+  client.say(channel, `/me ─=≡Σ((( つ•̀ω•́)つ WELCOME TO THE CHANNEL ${username} ヾ(*>∀＜*)  `);
 });
 client.on('connected', onConnectedHandler);
+
+const getRandomColor = () => {
+  return COLORS[Math.floor(Math.random()*COLORS.length)];
+}
 
 // Connect to Twitch:
 client.connect();
