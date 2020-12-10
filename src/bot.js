@@ -7,7 +7,6 @@ client.on('message', onMessageHandler);
 client.on('join', (channel, username, self) => {
     client.say(channel, `/me ─=≡Σ((( つ•̀ω•́)つ WELCOME TO THE CHANNEL ${username} ヾ(*>∀＜*)  `);
 });
-
 client.on('connected', onConnectedHandler);
 
 // Connect to Twitch:
@@ -19,15 +18,16 @@ function onMessageHandler(channel, userstate, message, self) {
 
     const answer = getAnswer(client, message);
     if (answer != null) {
-        client.say(channel, answer);
+      client.color(channel, "DodgerBlue");
+      client.say(channel, `/me Hi ${userstate.username}, ${answer}`);
     }
 
-    defaultFunction(channel);
+    defaultFunction(message, channel);
 }
 
-function defaultFunction(channel) {
+function defaultFunction(message, channel) {
     // Remove whitespace from chat message
-    const commandName = msg.trim();
+    const commandName = message.trim();
     // If the command is known, let's execute it
     if (commandName === '!dice') {
         const num = rollDice();

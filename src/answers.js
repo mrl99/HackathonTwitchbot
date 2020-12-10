@@ -3,7 +3,7 @@ import dljs from 'damerau-levenshtein-js';
 const chatQA = {
     "Why is the game in Japanese?": "Japanese text is faster, and games are generally released earlier in Japan, so there are more exploitable bugs that are patched in other versions.",
     "When is your next stream live?": "I stream everyday but Sunday.",
-
+    "What is this game": "it's FIRE EMBLEM : THREE HOUSES"
 }
 
 export function getAnswer(client, message){
