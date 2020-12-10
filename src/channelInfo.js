@@ -11,7 +11,7 @@ function getStream() {
     }).then(json => {
         return json;
     }).catch(err => {
-        console.log('Problem getting stream info: ' + err);
+        console.error('Problem getting stream info: ' + err);
     });
 };
 
@@ -22,7 +22,7 @@ export function getGame() {
 };
 
 export function getSrcMessage() {
-    getGame().then(gameName => {
+    return getGame().then(gameName => {
         // src's ajax search only works if the query string is <= 31 characters
         const gameQueryString = gameName.replace(' ', '+').substr(0, 31);
         return fetch('https://www.speedrun.com/ajax_search.php?term=' + gameQueryString, {
@@ -32,12 +32,10 @@ export function getSrcMessage() {
         }).then(res => {
             return res.json()
         }).then(json => {
-            console.log("got src response: " + json);
             let srcLink;
             for (const currentGameInfo of json) {
                 if (currentGameInfo.label === gameName) {
                     srcLink = 'https://speedrun.com/' + currentGameInfo.url;
-                    console.log('src link is ' + srcLink)
                 }
             }
             if (srcLink) {
@@ -46,7 +44,8 @@ export function getSrcMessage() {
                 return "There is no speedrun.com entry for this game, so unfortunately there probably aren't many resources to help."
             }
         }).catch(err => {
-            console.log('Problem getting src link: ' + err);
+            console.error('Problem getting src link: ' + err);
+            Promise.reject(err);
         });
     })
 };

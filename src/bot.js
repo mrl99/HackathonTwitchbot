@@ -25,13 +25,12 @@ function onMessageHandler(channel, userstate, message, self) {
     if (self) { return; } // Ignore messages from the bot
 
     const answer = getAnswer(client, message);
-    if (answer != null) {
+    if (answer) {
       client.color(channel, "DodgerBlue");
       answer.then(response => {
-        console.log("got response " + response);
         client.say(channel, `/me Hi ${userstate.username}, ${response}`);
-        return;
       });
+      return;
     }
 
     defaultFunction(message, channel);
