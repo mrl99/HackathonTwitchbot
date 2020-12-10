@@ -10,11 +10,11 @@ export const THRESHOLD = 10;
 // Define configuration options
 const opts = {
   identity: {
-    username: 'HackathonChatbotTest',
-    password: 'oauth:6t7p4rvao7gvpl9ekk16zcpa03i2ey'
+    username: 'tracici',
+    password: 'oauth:ffuem6rh61m351zcuuqiq061ay2eot'
   },
   channels: [
-    'HackathonChatbotTest'
+    'tracici'
   ]
 };
 
@@ -23,6 +23,9 @@ const client = new tmi.client(opts);
 
 // Register our event handlers (defined below)
 client.on('message', onMessageHandler);
+client.on('join', (channel, username, self) => {
+  client.say(channel, `─=≡Σ((( つ•̀ω•́)つ WELCOME TO THE CHANNEL ${username} ヾ(*>∀＜*)  `);
+});
 client.on('connected', onConnectedHandler);
 
 // Connect to Twitch:
@@ -30,7 +33,7 @@ client.connect();
 
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
-  if (self) { return; } // Ignore messages from the bot
+  //if (self) { return; } // Ignore messages from the bot
 
   // Remove whitespace from chat message
   const commandName = msg.trim();
@@ -39,14 +42,13 @@ function onMessageHandler(target, context, msg, self) {
     console.log(dljs.distance(question, msg));
     console.log(questionsAndAnswers[question])
     if (dljs.distance(question, msg) < THRESHOLD) {
-      // client.say(target, questionsAndAnswers[question]);
+       client.say(target, questionsAndAnswers[question]);
     }
   }
   // If the command is known, let's execute it
   if (commandName === '!dice') {
     const num = rollDice();
     client.say(target, `You rolled a ${num}`);
-    client
     console.log(`* Executed ${commandName} command`);
   } else {
     console.log(`* Unknown command ${commandName}`);
@@ -63,3 +65,4 @@ function rollDice() {
 function onConnectedHandler(addr, port) {
   console.log(`* Connected to ${addr}:${port}`);
 }
+
