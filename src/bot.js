@@ -1,6 +1,7 @@
 import {getClient} from './client.js';
 import {getAnswer} from "./answers.js";
 import {COLORS} from "./config.js";
+import list from 'badwords-list';
 
 let client = getClient();
 // Register our event handlers (defined below)
@@ -24,6 +25,10 @@ client.connect();
 function onMessageHandler(channel, userstate, message, self) {
     if (self) { return; } // Ignore messages from the bot
 
+    if (new RegExp(list.array.join("|")).test(message)) {
+        client.say(channel, `/me (-’๏_๏’-) Hey! Don't Say That!`);
+        return;
+    }
     const answer = getAnswer(client, message);
     if (answer) {
       client.color(channel, "DodgerBlue");
