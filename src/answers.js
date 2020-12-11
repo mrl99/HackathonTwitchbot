@@ -13,7 +13,7 @@ const chatQA = {
     "where can I buy this": () => getGame().then(name => "You can buy it from here " + getAmazonLink(name)),
     "what does any% mean": Promise.resolve("It means beating the game as fast as possible without using any outside" +
         " hacking tools."),
-    "how to learn speedrun": () => getSrcMessage(),
+    "how can i to learn speedrun this": () => getSrcMessage(),
     "is it available on steam": () => getGame().then(name => "Please check on here: " + getSteamLink(name))
 }
 

@@ -26,7 +26,7 @@ function onMessageHandler(channel, userstate, message, self) {
   if (self) { return; } // Ignore messages from the bot
   message = message.toLowerCase();
   try {
-    if (new RegExp(list.array.map(item => '\W' + item + '\W' ).join("|")).test(message)) {
+    if (new RegExp(list.array.map(item => '(^|[^a-zA-Z]+)' + item + '($|[^a-zA-Z]+)').join("|")).test(message)) {
       console.log("###### caught bad word");
       client.say(channel, `/me (-’๏_๏’-) Hey! Don't Say That!`);
       return;
