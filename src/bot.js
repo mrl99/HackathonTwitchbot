@@ -1,6 +1,6 @@
-import {getClient} from './client.js';
-import {getAnswer} from "./answers.js";
-import {COLORS} from "./config.js";
+import { getClient } from './client.js';
+import { getAnswer } from "./answers.js";
+import { COLORS } from "./config.js";
 import list from 'badwords-list';
 
 let client = getClient();
@@ -15,7 +15,7 @@ client.on('join', (channel, username, self) => {
 client.on('connected', onConnectedHandler);
 
 const getRandomColor = () => {
-  return COLORS[Math.floor(Math.random()*COLORS.length)];
+  return COLORS[Math.floor(Math.random() * COLORS.length)];
 }
 
 // Connect to Twitch:
@@ -23,11 +23,13 @@ client.connect();
 
 // Called every time a message comes in
 function onMessageHandler(channel, userstate, message, self) {
-    if (self) { return; } // Ignore messages from the bot
+  if (self) { return; } // Ignore messages from the bot
+
+  try {
 
     if (new RegExp(list.array.join("|")).test(message)) {
-        client.say(channel, `/me (-’๏_๏’-) Hey! Don't Say That!`);
-        return;
+      client.say(channel, `/me (-’๏_๏’-) Hey! Don't Say That!`);
+      return;
     }
     const answer = getAnswer(client, message);
     if (answer) {
@@ -39,27 +41,30 @@ function onMessageHandler(channel, userstate, message, self) {
     }
 
     defaultFunction(message, channel);
+  } catch (err) {
+    console.error('Error caught in main loop: ' + err);
+  }
 }
 
 function defaultFunction(message, channel) {
-    // Remove whitespace from chat message
-    const commandName = message.trim();
-    // If the command is known, let's execute it
-    if (commandName === '!dice') {
-        const num = rollDice();
-        client.say(channel, `You rolled a ${num}`);
-    } else {
-        console.log(`* Unknown command ${commandName}`);
-    }
+  // Remove whitespace from chat message
+  const commandName = message.trim();
+  // If the command is known, let's execute it
+  if (commandName === '!dice') {
+    const num = rollDice();
+    client.say(channel, `You rolled a ${num}`);
+  } else {
+    console.log(`* Unknown command ${commandName}`);
+  }
 }
 
 // Function called when the "dice" command is issued
 function rollDice() {
-    const sides = 6;
-    return Math.floor(Math.random() * sides) + 1;
+  const sides = 6;
+  return Math.floor(Math.random() * sides) + 1;
 }
 
 // Called every time the bot connects to Twitch chat
 function onConnectedHandler(addr, port) {
-    console.log(`* Connected to ${addr}:${port}`);
+  console.log(`* Connected to ${addr}:${port}`);
 }
