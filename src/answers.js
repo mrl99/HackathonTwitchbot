@@ -14,7 +14,7 @@ const chatQA = {
 }
 
 export function getAnswer(client, message) {
-    const THRESHOLD = 15;
+    const THRESHOLD = 12;
     let closestResponse = "";
     let closestDistance = THRESHOLD;
     for (const question of Object.keys(chatQA)) {

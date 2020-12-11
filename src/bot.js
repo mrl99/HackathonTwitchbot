@@ -26,8 +26,8 @@ function onMessageHandler(channel, userstate, message, self) {
   if (self) { return; } // Ignore messages from the bot
 
   try {
-
-    if (new RegExp(list.array.join("|")).test(message)) {
+    if (new RegExp(list.array.map(item => '\W' + item + '\W' ).join("|")).test(message)) {
+      console.log("###### caught bad word");
       client.say(channel, `/me (-’๏_๏’-) Hey! Don't Say That!`);
       return;
     }
