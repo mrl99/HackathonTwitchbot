@@ -5,12 +5,14 @@ import { getGame, getSrcMessage } from './channelInfo.js';
 const getAmazonLink = (item) => "https://www.amazon.com/s?k=" + encodeURI(item);
 
 const chatQA = {
-    "Why is the game in Japanese": Promise.resolve("Japanese text is faster, and games are generally released earlier in Japan, so there are more exploitable bugs that are patched in other versions."),
-    "When is your next stream live": Promise.resolve("I stream " + config.schedule),
-    "What game is this": () => getGame().then(name => "It's " + name),
-    "where can I buy this": () => getGame().then(name => Promise.resolve("You can buy it from here " + getAmazonLink(name))),
-    "What does any% mean": Promise.resolve("It means beating the game as fast as possible without using any outside hacking tools."),
-    "How can I learn to speedrun this game": () => getSrcMessage()
+    "why is the game in japanese": Promise.resolve("Japanese text is faster, and games are generally released" +
+        " earlier in Japan, so there are more exploitable bugs that are patched in other versions."),
+    "when is your next stream live": Promise.resolve("I stream " + config.schedule),
+    "what game is this": () => getGame().then(name => "It's " + name),
+    "where can I buy this": () => getGame().then(name => "You can buy it from here " + getAmazonLink(name)),
+    "what does any% mean": Promise.resolve("It means beating the game as fast as possible without using any outside" +
+        " hacking tools."),
+    "how to learn speedrun": () => getSrcMessage()
 }
 
 export function getAnswer(client, message) {

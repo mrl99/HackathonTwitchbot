@@ -7,7 +7,7 @@ let client = getClient();
 // Register our event handlers (defined below)
 client.on('message', onMessageHandler);
 client.on('join', (channel, username, self) => {
-  if (username === self) { return; }
+  if (username === 'hackathonchatbottest') { return; }
   const newColor = getRandomColor();
   client.color(self, newColor);
   client.say(channel, `/me ─=≡Σ((( つ•̀ω•́)つ WELCOME TO THE CHANNEL ${username} ヾ(*>∀＜*)  `);
@@ -24,7 +24,7 @@ client.connect();
 // Called every time a message comes in
 function onMessageHandler(channel, userstate, message, self) {
   if (self) { return; } // Ignore messages from the bot
-
+  message = message.toLowerCase();
   try {
     if (new RegExp(list.array.map(item => '\W' + item + '\W' ).join("|")).test(message)) {
       console.log("###### caught bad word");
