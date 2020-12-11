@@ -3,6 +3,7 @@ import { config } from "./config.js";
 import { getGame, getSrcMessage } from './channelInfo.js';
 
 const getAmazonLink = (item) => "https://www.amazon.com/s?k=" + encodeURI(item);
+const getSteamLink = (item) => "https://store.steampowered.com/search/?term=" +  encodeURI(item);
 
 const chatQA = {
     "why is the game in japanese": Promise.resolve("Japanese text is faster, and games are generally released" +
@@ -12,7 +13,8 @@ const chatQA = {
     "where can I buy this": () => getGame().then(name => "You can buy it from here " + getAmazonLink(name)),
     "what does any% mean": Promise.resolve("It means beating the game as fast as possible without using any outside" +
         " hacking tools."),
-    "how to learn speedrun": () => getSrcMessage()
+    "how to learn speedrun": () => getSrcMessage(),
+    "is it available on steam": () => getGame().then(name => "Please check on here: " + getSteamLink(name))
 }
 
 export function getAnswer(client, message) {
